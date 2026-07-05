@@ -13,7 +13,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "hotels")
+@Table(name = "hotels", schema = "vacationable")
 public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
