@@ -37,6 +37,10 @@ public class User {
     @Column(name = "last_name", length = 100)
     private String lastName;
 
+    @Size(max = 20)
+    @Column(name = "phone", length = 20)
+    private String phone;
+
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;

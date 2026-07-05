@@ -15,38 +15,39 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "hotels", schema = "vacationable")
-public class Hotel {
+@Table(name = "rooms", schema = "vacationable")
+public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Size(max = 255)
     @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "hotel_id", nullable = false)
+    private Hotel hotel;
+
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "room_type", nullable = false, length = 50)
+    private String roomType;
 
     @Column(name = "description", length = Integer.MAX_VALUE)
     private String description;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "location_id", nullable = false)
-    private Location location;
+    @Column(name = "max_guests", nullable = false)
+    private Integer maxGuests;
 
-    @Size(max = 255)
-    @Column(name = "address")
-    private String address;
+    @NotNull
+    @Column(name = "base_price", nullable = false, precision = 10, scale = 2)
+    private BigDecimal basePrice;
 
-    @ColumnDefault("0")
-    @Column(name = "rating", precision = 3, scale = 1)
-    private BigDecimal rating;
-
-    @ColumnDefault("0")
-    @Column(name = "total_reviews")
-    private Integer totalReviews;
+    @NotNull
+    @ColumnDefault("1")
+    @Column(name = "total_rooms", nullable = false)
+    private Integer totalRooms;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")

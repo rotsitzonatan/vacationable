@@ -41,6 +41,7 @@ public class AuthService {
         user.setLastName(request.getLastName());
         user.setCreatedAt(Instant.now());
         user.setUpdatedAt(Instant.now());
+        user.setPhone(request.getPhone());
 
         // Save entity
         userRepository.save(user);

@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -28,6 +30,11 @@ public class Booking {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "room_id", nullable = false)
+    private Room room;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "hotel_id", nullable = false)
     private Hotel hotel;
 
@@ -40,6 +47,10 @@ public class Booking {
     private LocalDate checkOutDate;
 
     @NotNull
+    @Column(name = "number_of_guests", nullable = false)
+    private Integer numberOfGuests;
+
+    @NotNull
     @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalPrice;
 
@@ -47,6 +58,10 @@ public class Booking {
     @ColumnDefault("'PENDING'")
     @Column(name = "status", length = 50)
     private String status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "transaction_id")
+    private Transaction transaction;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
