@@ -12,7 +12,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
+@Table(name = "users", schema = "vacationable")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
