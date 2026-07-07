@@ -15,38 +15,35 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "hotels", schema = "vacationable")
-public class Hotel {
+@Table(name = "reviews", schema = "vacationable")
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Size(max = 255)
     @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Column(name = "description", length = Integer.MAX_VALUE)
-    private String description;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "hotel_id", nullable = false)
+    private Hotel hotel;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "location_id", nullable = false)
-    private Location location;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Size(max = 255)
-    @Column(name = "address")
-    private String address;
-
-    @ColumnDefault("0")
-    @Column(name = "rating", precision = 3, scale = 1)
+    @NotNull
+    @Column(name = "rating", nullable = false, precision = 3, scale = 1)
     private BigDecimal rating;
 
-    @ColumnDefault("0")
-    @Column(name = "total_reviews")
-    private Integer totalReviews;
+    @Size(max = 255)
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "comment", length = Integer.MAX_VALUE)
+    private String comment;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
