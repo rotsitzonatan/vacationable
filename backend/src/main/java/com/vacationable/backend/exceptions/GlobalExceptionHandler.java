@@ -26,4 +26,11 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponseDto("Request conflicts with existing data", new Date()));
     }
 
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponseDto> handleForbiddenException(ForbiddenException ex) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(new ErrorResponseDto(ex.getMessage(), new Date()));
+    }
+
 }
