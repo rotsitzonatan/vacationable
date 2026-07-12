@@ -1,4 +1,4 @@
-package com.vacationable.backend.dto;
+package com.vacationable.backend.dto.location;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -8,13 +8,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponse {
+@AllArgsConstructor
+public class LocationRequestDto {
 
     @NotBlank
-    String token;
+    private String cityName;
 
     @NotBlank
-    String message;
+    private String country;
 }

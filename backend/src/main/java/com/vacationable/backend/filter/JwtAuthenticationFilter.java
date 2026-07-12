@@ -21,10 +21,13 @@ import java.util.Date;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
+    private final ObjectMapper objectMapper;
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
+        this.objectMapper = new ObjectMapper();
     }
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -33,7 +36,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = extractToken(request);
 
             if (token == null) {
-                throw new JwtAuthenticationException("Authorization header is missing or invalid");
+                filterChain.doFilter(request, response);
+                return;
             }
 
             if (!jwtUtil.validateToken(token)) {
@@ -64,8 +68,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(message, new Date());
-        ObjectMapper mapper = new ObjectMapper();
-        response.getWriter().write(mapper.writeValueAsString(errorResponseDto));
+        response.getWriter().write(objectMapper.writeValueAsString(errorResponseDto));
     }
 
 }
