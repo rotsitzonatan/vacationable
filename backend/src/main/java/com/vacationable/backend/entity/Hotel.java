@@ -56,5 +56,9 @@ public class Hotel {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
 
 }
