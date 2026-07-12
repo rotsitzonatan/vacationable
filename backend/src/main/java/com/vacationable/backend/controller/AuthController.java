@@ -1,8 +1,8 @@
 package com.vacationable.backend.controller;
 
-import com.vacationable.backend.dto.AuthResponse;
-import com.vacationable.backend.dto.LoginRequest;
-import com.vacationable.backend.dto.RegisterRequest;
+import com.vacationable.backend.dto.auth.AuthResponse;
+import com.vacationable.backend.dto.auth.LoginRequest;
+import com.vacationable.backend.dto.auth.RegisterRequest;
 import com.vacationable.backend.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

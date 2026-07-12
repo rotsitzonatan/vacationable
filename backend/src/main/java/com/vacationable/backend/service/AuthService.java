@@ -1,10 +1,10 @@
 package com.vacationable.backend.service;
 
-import com.vacationable.backend.dto.AuthResponse;
-import com.vacationable.backend.dto.LoginRequest;
-import com.vacationable.backend.dto.RegisterRequest;
+import com.vacationable.backend.dto.auth.AuthResponse;
+import com.vacationable.backend.dto.auth.LoginRequest;
+import com.vacationable.backend.dto.auth.RegisterRequest;
 import com.vacationable.backend.entity.User;
-import com.vacationable.backend.exceptions.UserException;
+import com.vacationable.backend.exceptions.ResourceNotFoundException;
 import com.vacationable.backend.repository.UserRepository;
 import com.vacationable.backend.util.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +30,7 @@ public class AuthService {
     public AuthResponse register(RegisterRequest request) {
         // Check if email exists
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new UserException("Email already exists.");
+            throw new ResourceNotFoundException("Email already exists.");
         }
 
         // Create User entity from DTO
@@ -54,11 +54,11 @@ public class AuthService {
     public AuthResponse login(LoginRequest request){
         // Check if email exists
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(()
-                -> new UserException("User not found"));
+                -> new ResourceNotFoundException("User not found"));
 
         // Check if password matches
         if(!passwordEncoder.matches(request.getPassword(), user.getPassword())){
-            throw new UserException("Incorrect password.");
+            throw new ResourceNotFoundException("Incorrect password.");
         }
 
         // Generate token
